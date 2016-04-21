@@ -1,0 +1,48 @@
+{
+  "name": "vue-mutation-store",
+  "version": "0.0.0",
+  "author": "katashin",
+  "description": "Vuex and Redux inspired MVVM approach for Vue.js (experimental)",
+  "keywords": [
+    "vue",
+    "mvvm",
+    "flux",
+    "architecture"
+  ],
+  "license": "MIT",
+  "main": "dist/vue-mutation-store.js",
+  "homepage": "https://github.com/ktsn/vue-mutation-store",
+  "bugs": "https://github.com/ktsn/vue-mutation-store/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ktsn/vue-mutation-store.git"
+  },
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "gulp build",
+    "test": "gulp test"
+  },
+  "devDependencies": {
+    "del": "^2.2.0",
+    "glob": "^7.0.3",
+    "gulp": "^3.9.1",
+    "gulp-header": "^1.7.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-tslint": "^4.3.5",
+    "gulp-uglify": "^1.5.3",
+    "gulp-util": "^3.0.7",
+    "js-yaml": "^3.6.0",
+    "json-loader": "^0.5.4",
+    "power-assert": "^1.3.1",
+    "run-sequence": "^1.1.5",
+    "testem": "^1.6.0",
+    "ts-loader": "^0.8.2",
+    "tslint": "^3.7.4",
+    "typescript": "^1.8.10",
+    "webpack": "^1.13.0",
+    "webpack-espower-loader": "^1.0.1"
+  },
+  "peerDependencies": {
+    "vue": "^1.0.21"
+  }
+}
