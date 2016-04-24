@@ -1,4 +1,4 @@
-import { Store } from './store';
+import Store from './store';
 import { noop } from './utils';
 
 export default function install(Vue: vuejs.VueStatic) : void {

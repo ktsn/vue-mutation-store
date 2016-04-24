@@ -1,11 +1,6 @@
 import * as Vue from 'vue';
-import { State } from './store';
+import { Getter, Mutation, GetterMap, MutationMap } from './types';
 import { camelToKebab, mapValues } from './utils';
-
-export type Getter = (state: State) => any;
-export type Mutation = (state: State, ...args: any[]) => void;
-export type GetterMap = { [key: string]: Getter };
-export type MutationMap = { [key: string]: Mutation };
 
 export default function connect(getters: GetterMap, mutations: MutationMap) {
   return function(name: string, Component: vuejs.VueStatic) : vuejs.VueStatic {

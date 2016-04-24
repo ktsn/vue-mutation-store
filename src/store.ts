@@ -1,4 +1,4 @@
-export type State = { [key: string]: any };
+import { State } from './types';
 
 export default class Store {
   private vm: vuejs.Vue;
