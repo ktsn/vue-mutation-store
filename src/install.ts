@@ -1,7 +1,7 @@
 import { Store } from './store';
 import { noop } from './utils';
 
-export function install(Vue: vuejs.VueStatic) : void {
+export default function install(Vue: vuejs.VueStatic) : void {
   const _init = Vue.prototype._init;
   Vue.prototype._init = function(options: vuejs.ComponentOption = {}) {
     const init = options.init || noop;

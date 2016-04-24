@@ -1,6 +1,6 @@
 export type State = { [key: string]: any };
 
-export class Store {
+export default class Store {
   private vm: vuejs.Vue;
 
   constructor(initialState: State) {

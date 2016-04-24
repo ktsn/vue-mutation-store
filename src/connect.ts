@@ -7,7 +7,7 @@ export type Mutation = (state: State, ...args: any[]) => void;
 export type GetterMap = { [key: string]: Getter };
 export type MutationMap = { [key: string]: Mutation };
 
-export function connect(getters: GetterMap, mutations: MutationMap) {
+export default function connect(getters: GetterMap, mutations: MutationMap) {
   return function(name: string, Component: vuejs.VueStatic) : vuejs.VueStatic {
     const Container = Vue.extend({
       computed: mapGettersToComputed(getters),
