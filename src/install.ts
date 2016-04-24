@@ -24,3 +24,7 @@ function pluginInit() : void {
     _this.$store = _this.$parent.$store;
   }
 }
+
+if (typeof window.Vue !== 'undefined') {
+  Vue.use(install);
+}
