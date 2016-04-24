@@ -1,3 +1,3 @@
-export default {
-  // this file is the entry point of the project
-};
+export * from './install';
+export * from './connect';
+export * from './store';
