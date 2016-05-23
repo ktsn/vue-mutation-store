@@ -1,4 +1,4 @@
-import { State } from './types';
+export type State = { [key: string] : any }
 
 export default class Store {
   private vm: vuejs.Vue;
@@ -11,5 +11,9 @@ export default class Store {
 
   get state() : State {
     return this.vm.$data;
+  }
+
+  dispatch(mutation: (state: State) => void) {
+    mutation(this.state);
   }
 }

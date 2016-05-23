@@ -1,29 +1,26 @@
-import * as Vue from 'vue';
-import { Getter, Mutation, GetterMap, MutationMap } from './types';
+import { State } from './store';
 import { camelToKebab, mapValues } from './utils';
 
+export type Getter      = (state: State) => any;
+export type Mutation    = (...args: any[]) => (state: State) => void;
+export type GetterMap   = { [key: string]: Getter };
+export type MutationMap = { [key: string]: Mutation };
+
 export default function connect(getters: GetterMap, mutations: MutationMap) {
-  return function(name: string, Component: vuejs.VueStatic) : vuejs.VueStatic {
-    const Container = Vue.extend({
+  return (name: string, Component: vuejs.VueStatic) : vuejs.VueStatic => {
+    const getterKeys = Object.keys(getters);
+    const mutationKeys = Object.keys(mutations);
+
+    const props = getterKeys.concat(mutationKeys).map(bindProp);
+
+    return Vue.extend({
+      template: `<${name} ${props.join(' ')}></${name}>`,
       computed: mapGettersToComputed(getters),
       methods: mapMutationsToMethods(mutations),
       components: {
         [name]: Component
       }
     });
-
-    const _init = Container.prototype._init;
-    Container.prototype._init = function(options: vuejs.ComponentOption) {
-      const getterKeys = Object.keys(getters);
-      const mutationKeys = Object.keys(mutations);
-
-      const props = getterKeys.concat(mutationKeys).map(bindProp);
-      options.template = `<${name} ${props.join(' ')}></${name}>`;
-
-      _init.call(this, options);
-    };
-
-    return Container;
   };
 }
 
@@ -38,7 +35,7 @@ function mapGettersToComputed(getters: GetterMap) : { [key: string]: Function } 
 function mapMutationsToMethods(mutations: MutationMap) : { [key: string]: Function } {
   return mapValues(mutations, (mutation: Mutation, key: string) => {
     return function(...args: any[]) {
-      return mutation(this.$store.state, ...args);
+      return this.$store.dispatch(mutation(...args));
     };
   });
 }

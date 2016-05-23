@@ -14,9 +14,7 @@
     "src/index.ts",
     "src/install.ts",
     "src/store.ts",
-    "src/types.d.ts",
     "src/utils.ts",
-    "src/vue.d.ts",
     "typings/browser.d.ts"
   ],
   "atom": {
