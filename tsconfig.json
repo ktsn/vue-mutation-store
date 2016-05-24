@@ -11,8 +11,10 @@
   ],
   "files": [
     "src/connect.ts",
+    "src/global.d.ts",
     "src/index.ts",
     "src/install.ts",
+    "src/mutation.ts",
     "src/store.ts",
     "src/utils.ts",
     "typings/browser.d.ts"
