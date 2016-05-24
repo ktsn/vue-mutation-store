@@ -1,22 +1,23 @@
 import { State } from './store';
 import { camelToKebab, mapValues } from './utils';
+import { Mutation } from './mutation';
 
-export type Getter      = (state: State) => any;
-export type Mutation    = (...args: any[]) => (state: State) => void;
-export type GetterMap   = { [key: string]: Getter };
-export type MutationMap = { [key: string]: Mutation };
+export type Getter    = (state: State) => any;
+export type Action    = (...args: any[]) => Mutation;
+export type GetterMap = { [key: string]: Getter };
+export type ActionMap = { [key: string]: Action };
 
-export default function connect(getters: GetterMap, mutations: MutationMap) {
+export default function connect(getters: GetterMap, actions: ActionMap) {
   return (name: string, Component: vuejs.VueStatic) : vuejs.VueStatic => {
     const getterKeys = Object.keys(getters);
-    const mutationKeys = Object.keys(mutations);
+    const actionKeys = Object.keys(actions);
 
-    const props = getterKeys.concat(mutationKeys).map(bindProp);
+    const props = getterKeys.concat(actionKeys).map(bindProp);
 
     return Vue.extend({
       template: `<${name} ${props.join(' ')}></${name}>`,
       computed: mapGettersToComputed(getters),
-      methods: mapMutationsToMethods(mutations),
+      methods: mapMutationsToMethods(actions),
       components: {
         [name]: Component
       }
@@ -32,10 +33,10 @@ function mapGettersToComputed(getters: GetterMap) : { [key: string]: Function } 
   });
 }
 
-function mapMutationsToMethods(mutations: MutationMap) : { [key: string]: Function } {
-  return mapValues(mutations, (mutation: Mutation, key: string) => {
+function mapMutationsToMethods(actions: ActionMap) : { [key: string]: Function } {
+  return mapValues(actions, (action: Action, key: string) => {
     return function(...args: any[]) {
-      return this.$store.dispatch(mutation(...args));
+      return this.$store.dispatch(action(...args));
     };
   });
 }

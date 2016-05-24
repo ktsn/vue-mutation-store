@@ -1,3 +1,5 @@
+import { Mutation } from './mutation';
+
 export type State = { [key: string] : any }
 
 export default class Store {
@@ -13,7 +15,7 @@ export default class Store {
     return this.vm.$data;
   }
 
-  dispatch(mutation: (state: State) => void) {
-    mutation(this.state);
+  dispatch(mutation: Mutation) {
+    mutation.run(this.state);
   }
 }
