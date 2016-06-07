@@ -1,6 +1,6 @@
-import { Mutation } from './mutation';
+import { Mutation, AsyncMutation } from './mutation';
 
-export type State = { [key: string] : any }
+export type State = any;
 
 export default class Store {
   private vm: vuejs.Vue;
@@ -9,13 +9,24 @@ export default class Store {
     this.vm = new Vue({
       data: initialState
     });
+
+    const dispatch = this.dispatch;
+    this.dispatch = f => {
+      dispatch.call(this, f);
+    };
   }
 
   get state() : State {
     return this.vm.$data;
   }
 
-  dispatch(mutation: Mutation) {
-    mutation.run(this.state);
+  dispatch(f: Mutation) : void;
+  dispatch(f: AsyncMutation) : void {
+    const p = f(this.state);
+    if (!p) return;
+
+    p.then(g => {
+      if (g) this.dispatch(g);
+    });
   }
 }

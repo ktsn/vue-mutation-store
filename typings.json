@@ -1,7 +1,9 @@
 {
   "name": "template-ts",
   "version": false,
-  "dependencies": {},
+  "dependencies": {
+    "es6-promise": "registry:npm/es6-promise#3.0.0+20160211003958"
+  },
   "ambientDevDependencies": {
     "empower": "registry:dt/empower#0.0.0+20160317120654",
     "mocha": "registry:dt/mocha#2.2.5+20160317120654",
