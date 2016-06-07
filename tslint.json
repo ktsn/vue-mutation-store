@@ -20,7 +20,6 @@
     "no-construct": true,
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
-    "no-empty": true,
     "no-eval": true,
     "no-shadowed-variable": true,
     "no-unreachable": true,

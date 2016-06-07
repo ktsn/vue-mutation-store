@@ -15,4 +15,4 @@ export function mapValues<T, U>(
   return result;
 }
 
-export function noop() {/* do nothing */};
+export function noop() {};
