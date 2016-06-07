@@ -7,7 +7,7 @@
   },
   "filesGlob": [
     "src/**/*.ts",
-    "typings/browser.d.ts"
+    "typings/index.d.ts"
   ],
   "files": [
     "src/connect.ts",
@@ -17,7 +17,7 @@
     "src/mutation.ts",
     "src/store.ts",
     "src/utils.ts",
-    "typings/browser.d.ts"
+    "typings/index.d.ts"
   ],
   "atom": {
     "rewriteTsconfig": true
