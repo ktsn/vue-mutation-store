@@ -15,4 +15,13 @@ export function mapValues<T, U>(
   return result;
 }
 
+export function assign(target: any, ...args: any[]) : any {
+  args.forEach(arg => {
+    Object.keys(arg).forEach(key => {
+      target[key] = arg[key];
+    });
+  });
+  return target;
+}
+
 export function noop() {};

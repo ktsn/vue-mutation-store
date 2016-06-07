@@ -1,5 +1,5 @@
-import { State } from './store';
-import { camelToKebab, mapValues } from './utils';
+import Store, { State } from './store';
+import { camelToKebab, mapValues, assign } from './utils';
 import { Mutation } from './mutation';
 
 export type Getter    = (state: State) => any;
@@ -7,21 +7,43 @@ export type Action    = (...args: any[]) => Mutation;
 export type GetterMap = { [key: string]: Getter };
 export type ActionMap = { [key: string]: Action };
 
-export default function connect(getters: GetterMap, actions: ActionMap) {
+export interface LifecycleMap {
+  init?() : void;
+  created?(store: Store) : void;
+  beforeCompile?(store: Store) : void;
+  compiled?(store: Store) : void;
+  ready?(store: Store) : void;
+  attached?(store: Store) : void;
+  detached?(store: Store) : void;
+  beforeDestroy?(store: Store) : void;
+  destroyed?(store: Store) : void;
+}
+
+export default function connect({
+  getters = <GetterMap>{},
+  actions = <ActionMap>{},
+  lifecycle = <LifecycleMap>{}
+}) {
   return (name: string, Component: vuejs.VueStatic) : vuejs.VueStatic => {
     const getterKeys = Object.keys(getters);
     const actionKeys = Object.keys(actions);
 
     const props = getterKeys.concat(actionKeys).map(bindProp);
 
-    return Vue.extend({
+    const lifecycle_ = mapValues<any, any>(lifecycle, f => {
+      return function() {
+        f.call(this, this.$store);
+      };
+    });
+
+    return Vue.extend(assign(lifecycle_, {
       template: `<${name} ${props.join(' ')}></${name}>`,
       computed: mapGettersToComputed(getters),
       methods: mapMutationsToMethods(actions),
       components: {
         [name]: Component
       }
-    });
+    }));
   };
 }
 
