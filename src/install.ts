@@ -1,4 +1,3 @@
-import Store from './store';
 import { noop } from './utils';
 
 export default function install(Vue: vuejs.VueStatic) : void {
@@ -16,7 +15,7 @@ export default function install(Vue: vuejs.VueStatic) : void {
 
 function pluginInit() : void {
   const _this: vuejs.Vue = this;
-  const store: Store = (<any>_this.$options).store;
+  const { store } = <any>_this.$options;
 
   if (store) {
     _this.$store = store;

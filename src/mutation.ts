@@ -1,33 +1,32 @@
 import { Promise } from 'es6-promise';
-import { State } from './store';
 
-export type Mutation      = (state: State) => void;
-export type AsyncMutation = (state: State) => Promise<Mutation>;
+export type Mutation<T>      = (val: T) => void;
+export type AsyncMutation<T> = (val: T) => Promise<Mutation<T>>;
 
-export const mzero: Mutation      = state => {};
-export const azero: AsyncMutation = state => Promise.resolve(mzero);
+export const mzero = <T>(val: T) => {};
+export const azero = <T>(val: T) => Promise.resolve(mzero);
 
-export function seqM(...ms: Mutation[]) : Mutation {
-  return state => ms.forEach(m => m(state));
+export function seqM<T>(...ms: Mutation<T>[]) : Mutation<T> {
+  return val => ms.forEach(m => m(val));
 }
 
-export function seqA(...as: AsyncMutation[]) : AsyncMutation {
+export function seqA<T>(...as: AsyncMutation<T>[]) : AsyncMutation<T> {
   if (typeof as[0] !== 'function') return azero;
 
-  return state =>
-    as[0](state)
-      .then(m => (m || mzero)(state))
-      .then(_ => seqA(...as.slice(1))(state));
+  return val =>
+    as[0](val)
+      .then(m => (m || mzero)(val))
+      .then(_ => seqA(...as.slice(1))(val));
 }
 
-export function liftM(m: Mutation) : AsyncMutation {
-  return state => Promise.resolve(m);
+export function liftM<T>(m: Mutation<T>) : AsyncMutation<T> {
+  return val => Promise.resolve(m);
 }
 
-export function mutation(f: (state: State) => void) : Mutation {
+export function mutation<T>(f: (val: T) => void) : Mutation<T> {
   return f;
 }
 
-export function asyncMutation(f: (state: State) => Promise<Mutation>) : AsyncMutation {
-  return state => f(state) || Promise.resolve(mzero);
+export function asyncMutation<T>(f: (val: T) => Promise<Mutation<T>>) : AsyncMutation<T> {
+  return val => f(val) || Promise.resolve(mzero);
 }

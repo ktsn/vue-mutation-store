@@ -1,28 +1,28 @@
-import Store, { State } from './store';
+import Store from './store';
 import { camelToKebab, mapValues, assign } from './utils';
 import { Mutation } from './mutation';
 
-export type Getter    = (state: State) => any;
-export type Action    = (...args: any[]) => Mutation;
-export type GetterMap = { [key: string]: Getter };
-export type ActionMap = { [key: string]: Action };
+export type Getter<T>    = (state: T) => any;
+export type Action<T>    = (...args: any[]) => Mutation<T>;
+export type GetterMap<T> = { [key: string]: Getter<T> };
+export type ActionMap<T> = { [key: string]: Action<T> };
 
-export interface LifecycleMap {
+export interface LifecycleMap<T> {
   init?() : void;
-  created?(store: Store) : void;
-  beforeCompile?(store: Store) : void;
-  compiled?(store: Store) : void;
-  ready?(store: Store) : void;
-  attached?(store: Store) : void;
-  detached?(store: Store) : void;
-  beforeDestroy?(store: Store) : void;
-  destroyed?(store: Store) : void;
+  created?(store: Store<T>) : void;
+  beforeCompile?(store: Store<T>) : void;
+  compiled?(store: Store<T>) : void;
+  ready?(store: Store<T>) : void;
+  attached?(store: Store<T>) : void;
+  detached?(store: Store<T>) : void;
+  beforeDestroy?(store: Store<T>) : void;
+  destroyed?(store: Store<T>) : void;
 }
 
-export default function connect({
-  getters = <GetterMap>{},
-  actions = <ActionMap>{},
-  lifecycle = <LifecycleMap>{}
+export default function connect<T>({
+  getters = <GetterMap<T>>{},
+  actions = <ActionMap<T>>{},
+  lifecycle = <LifecycleMap<T>>{}
 }) {
   return (name: string, Component: vuejs.VueStatic) : vuejs.VueStatic => {
     const getterKeys = Object.keys(getters);
@@ -47,16 +47,16 @@ export default function connect({
   };
 }
 
-function mapGettersToComputed(getters: GetterMap) : { [key: string]: Function } {
-  return mapValues(getters, (getter: Getter, key: string) => {
+function mapGettersToComputed<T>(getters: GetterMap<T>) : { [key: string]: Function } {
+  return mapValues(getters, (getter: Getter<T>, key: string) => {
     return function() {
       return getter(this.$store.state);
     };
   });
 }
 
-function mapMutationsToMethods(actions: ActionMap) : { [key: string]: Function } {
-  return mapValues(actions, (action: Action, key: string) => {
+function mapMutationsToMethods<T>(actions: ActionMap<T>) : { [key: string]: Function } {
+  return mapValues(actions, (action: Action<T>, key: string) => {
     return function(...args: any[]) {
       return this.$store.dispatch(action(...args));
     };
