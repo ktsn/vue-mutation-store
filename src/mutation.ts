@@ -23,7 +23,7 @@ export function seqA<T>(...as: AsyncMutation<T>[]) : AsyncMutation<T> {
 
   return val =>
     as[0](val)
-      .then(m => (m || mzero)(val))
+      .then(m => m(val))
       .then(_ => seqA(...as.slice(1))(val));
 }
 
