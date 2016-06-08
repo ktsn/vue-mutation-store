@@ -2,12 +2,12 @@ import Store from './store';
 import { camelToKebab, mapValues, assign } from './utils';
 import { Mutation } from './mutation';
 
-export type Getter<T>    = (state: T) => any;
-export type Action<T>    = (...args: any[]) => Mutation<T>;
-export type GetterMap<T> = { [key: string]: Getter<T> };
-export type ActionMap<T> = { [key: string]: Action<T> };
+type Getter<T>    = (state: T) => any;
+type Action<T>    = (...args: any[]) => Mutation<T>;
+type GetterMap<T> = { [key: string]: Getter<T> };
+type ActionMap<T> = { [key: string]: Action<T> };
 
-export interface LifecycleMap<T> {
+type LifecycleMap<T> = {
   init?() : void;
   created?(store: Store<T>) : void;
   beforeCompile?(store: Store<T>) : void;
