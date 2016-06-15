@@ -11,7 +11,9 @@
     "typings/index.d.ts"
   ],
   "files": [
+    "src/action.ts",
     "src/connect.ts",
+    "src/getter.ts",
     "src/global.d.ts",
     "src/index.ts",
     "src/install.ts",
