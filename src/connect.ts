@@ -1,4 +1,4 @@
-import Store from './store';
+import { Store } from './store';
 import { camelToKebab, mapValues, assign } from './utils';
 import { Mutation } from './mutation';
 
@@ -19,7 +19,7 @@ type LifecycleMap<T> = {
   destroyed?(store: Store<T>) : void;
 }
 
-export default function connect<T>({
+export function connect<T>({
   getters = <GetterMap<T>>{},
   actions = <ActionMap<T>>{},
   lifecycle = <LifecycleMap<T>>{}

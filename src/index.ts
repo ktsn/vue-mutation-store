@@ -1,9 +1,4 @@
-import install from './install';
-import connect from './connect';
-import Store from './store';
-
-export default {
-  install,
-  connect,
-  Store
-}
+export * from './install';
+export * from './connect';
+export * from './store';
+export * from './mutation';

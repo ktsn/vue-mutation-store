@@ -1,6 +1,6 @@
 import { Mutation, AsyncMutation } from './mutation';
 
-export default class Store<T> {
+export class Store<T> {
   private vm: vuejs.Vue;
 
   constructor(initialState: T) {
